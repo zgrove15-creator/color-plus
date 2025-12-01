@@ -1,316 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Smart color tools for designers. Fix contrast, discover harmonies, and fine-tune colors.">
-<meta name="keywords" content="color, contrast, accessibility, harmony, palette, designer">
-<meta name="theme-color" content="#007bff">
-<meta property="og:title" content="Color+ - Smart Color Tools">
-<meta property="og:description" content="Fix contrast, discover harmonies, and fine-tune colors for your designs.">
-  <title>Color+ - Smart Color Tools</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chroma-js@2.4.2/chroma.min.js"></script>
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color+ | Smart Color Tools for Designers</title>
+    <meta name="description" content="Color+ - Smart color tools for designers. Contrast fixing, color harmony, and more.">
+    <meta name="theme-color" content="#0a0e27">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%2300ffff' width='100' height='100'/><circle fill='%23ff00ff' cx='50' cy='50' r='30'/></svg>">
+    
+    <!-- VT323 Pixelated Font -->
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Color+</h1>
+            <p class="header-blurb">Smart color tools for designers</p>
+        </header>
 
-<div class="container">
-
-  <header>
-    <h1>Color+</h1>
-    <p>Smart color tools for designers</p>
-  </header>
-
-  <!-- NAV BOXES -->
-  <nav class="nav-boxes">
-    <button class="nav-box active" data-tool="contrast">
-      <span class="nav-icon">🎨</span>
-      <span class="nav-label">Contrast Fix</span>
-    </button>
-    <button class="nav-box" data-tool="harmony">
-      <span class="nav-icon">🌈</span>
-      <span class="nav-label">Harmony Finder</span>
-    </button>
-    <button class="nav-box" data-tool="modifier">
-      <span class="nav-icon">🎛️</span>
-      <span class="nav-label">Color Modifier</span>
-    </button>
-  </nav>
-
-  <main>
-    
-    <!-- ===== CONTRAST FIX TOOL ===== -->
-    <section class="tool-section active" id="contrast-tool">
-      
-      <div class="tool-header">
-        <h2>Contrast Fix</h2>
-        <p class="tool-blurb">Enter two colors and we'll instantly show you how to improve their contrast for better accessibility. Get multiple fix options, from subtle to bold adjustments.</p>
-      </div>
-
-      <section class="input-section">
-        <h3>Enter Your Colors</h3>
-        
-        <div class="input-grid">
-          
-          <div class="colors-row">
-            <div class="input-group">
-              <label for="color1">Text Color</label>
-              <div class="color-input">
-                <input type="text" id="color1" placeholder="#F0813E" value="#F0813E" aria-label="Text color hex input">
-                <input type="color" id="color1-picker" style="display: none;">
-                <div class="color-preview" id="color1-preview" title="Click to pick a color"></div>
-              </div>
-              <div class="error-message" id="color1-error"></div>
-              <label class="checkbox-label">
-                <input type="checkbox" id="lock-color1">
-                <span>Keep this color</span>
-              </label>
-            </div>
-
-            <button id="swap-colors" class="swap-button" title="Swap colors (Press S)" aria-label="Swap text and background colors">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 10h11M14 7l3 3-3 3M17 10H6M6 13l-3-3 3-3" />
-              </svg>
+        <!-- Navigation (Shadow Box Style) -->
+        <nav class="nav-container">
+            <button class="nav-button active" data-tab="contrast-fix">
+                <span class="nav-icon">⚡</span>
+                <span>Contrast Fix</span>
             </button>
+            <button class="nav-button" data-tab="complement-finder">
+                <span class="nav-icon">🎨</span>
+                <span>Harmony</span>
+            </button>
+            <button class="nav-button" data-tab="color-modifier">
+                <span class="nav-icon">🎚️</span>
+                <span>Modifier</span>
+            </button>
+        </nav>
 
-            <div class="input-group">
-              <label for="color2">Background Color</label>
-              <div class="color-input">
-                <input type="text" id="color2" placeholder="#01314E" value="#01314E" aria-label="Background color hex input">
-                <input type="color" id="color2-picker" style="display: none;">
-                <div class="color-preview" id="color2-preview" title="Click to pick a color"></div>
-              </div>
-              <div class="error-message" id="color2-error"></div>
-              <label class="checkbox-label">
-                <input type="checkbox" id="lock-color2">
-                <span>Keep this color</span>
-              </label>
-            </div>
-          </div>
+        <!-- Tab Content -->
+        <main class="tabs-container">
+            <!-- Contrast Fix Tool -->
+            <section id="contrast-fix" class="tab-content active">
+                <div class="tool-header">
+                    <h2>Contrast Fix</h2>
+                    <p class="tool-blurb">Ensure your colors meet WCAG accessibility standards. Adjust text and background colors to improve readability.</p>
+                </div>
 
-          <div class="contrast-section">
-            <label class="contrast-title">Current Contrast Ratio</label>
-            <div class="contrast-display" id="contrast-display">
-              <div class="contrast-value">
-                <span id="contrast-ratio">0:1</span>
-                <span id="contrast-status">-</span>
-              </div>
-              <div class="wcag-badges" id="wcag-badges"></div>
-            </div>
-          </div>
+                <div class="contrast-window">
+                    <!-- Input Section -->
+                    <div class="input-section">
+                        <div class="color-input-group">
+                            <label>Text Color</label>
+                            <div class="color-input-wrapper">
+                                <div class="color-preview" id="textPreview" style="background-color: #f0813e;"></div>
+                                <input type="text" id="textInput" value="#f0813e" placeholder="#000000">
+                                <input type="color" id="textColorPicker" value="#f0813e" style="display: none;">
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="lockText" class="lock-checkbox">
+                                <label for="lockText" class="checkbox-label">Keep this color</label>
+                            </div>
+                        </div>
 
-          <div class="controls-row">
-            <div class="input-group">
-              <label for="contrast-level">
-                Required Contrast
-                <span class="tooltip-icon" title="AA = minimum standard for accessibility. AAA = enhanced standard. Higher ratio = better readability.">?</span>
-              </label>
-              <select id="contrast-level" aria-label="Required contrast level">
-                <option value="4.5">WCAG AA (4.5:1)</option>
-                <option value="7" selected>WCAG AAA (7:1)</option>
-              </select>
-            </div>
+                        <button id="swapButton" class="swap-button" title="Swap colors (S)">⇅</button>
 
-            <div class="input-group button-group">
-              <button id="get-results" aria-label="Get recommendations (Ctrl+Enter)">Get Recommendations</button>
-            </div>
-          </div>
+                        <div class="color-input-group">
+                            <label>Background Color</label>
+                            <div class="color-input-wrapper">
+                                <div class="color-preview" id="bgPreview" style="background-color: #01314e;"></div>
+                                <input type="text" id="bgInput" value="#01314e" placeholder="#ffffff">
+                                <input type="color" id="bgColorPicker" value="#01314e" style="display: none;">
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="lockBg" class="lock-checkbox">
+                                <label for="lockBg" class="checkbox-label">Keep this color</label>
+                            </div>
+                        </div>
+                    </div>
 
-        </div>
-      </section>
+                    <!-- Contrast Display Section -->
+                    <div class="contrast-display-section">
+                        <h3>Contrast Ratio</h3>
+                        <div class="contrast-display" id="contrastDisplay">
+                            <div class="contrast-box" id="contrastBox">
+                                <div id="contrastRatio">—</div>
+                                <div id="wcagStatus">—</div>
+                            </div>
+                        </div>
+                        <p class="contrast-disclaimer">
+                            <span class="tooltip-icon" title="WCAG guidelines: AA (4.5:1 text, 3:1 graphics), AAA (7:1 text, 4.5:1 graphics)">?</span>
+                            WCAG Contrast Requirement
+                        </p>
+                    </div>
 
-      <section class="results-section" id="results">
-        <h3>Recommended Solutions</h3>
-        <p class="results-blurb">Below are three color adjustment options ranked by how close they get to your target contrast ratio. Click any hex code to copy it to your clipboard.</p>
-        <div class="results-grid-container" id="results-grid-container"></div>
-      </section>
+                    <!-- Button Section -->
+                    <div class="button-section">
+                        <button id="generateBtn" class="btn-primary" title="Generate recommendations (Ctrl+Enter)">Get Recommendations</button>
+                    </div>
 
-    </section>
+                    <!-- Recommendations Section -->
+                    <div class="recommendations-section">
+                        <h3>Recommendations</h3>
+                        <p class="recommendations-blurb">Here are three color adjustments (subtle, moderate, bold) that meet WCAG AA standards. Adjust as needed for your design.</p>
+                        <div class="recommendations-container" id="recommendationsContainer">
+                            <!-- Generated recommendations appear here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    <!-- ===== HARMONY FINDER TOOL ===== -->
-    <section class="tool-section" id="harmony-tool">
+            <!-- Complement Finder Tool -->
+            <section id="complement-finder" class="tab-content">
+                <div class="tool-header">
+                    <h2>Harmony</h2>
+                    <p class="tool-blurb">Explore color harmonies. Choose a base color and generate complementary, analogous, triadic, tetradic, and split-complementary palettes.</p>
+                </div>
 
-      <div class="tool-header">
-        <h2>Harmony Finder</h2>
-        <p class="tool-blurb">Pick a base color and discover beautiful color harmonies. Choose from complementary, analogous, triadic, and more schemes to build cohesive palettes.</p>
-      </div>
+                <div class="harmony-window">
+                    <!-- Base Color Input -->
+                    <div class="harmony-input-section">
+                        <label>Base Color</label>
+                        <div class="color-input-wrapper">
+                            <div class="color-preview" id="harmonyColorPreview" style="background-color: #f0813e;"></div>
+                            <input type="text" id="harmonyInput" value="#f0813e" placeholder="#000000">
+                            <input type="color" id="harmonyColorPicker" value="#f0813e" style="display: none;">
+                        </div>
+                    </div>
 
-      <section class="input-section">
-        <h3>Find Color Harmonies</h3>
-        
-        <div class="input-grid">
-          
-          <div class="colors-row" style="grid-template-columns: 1fr;">
-            <div class="input-group">
-              <label for="harmony-color">Base Color</label>
-              <div class="color-input">
-                <input type="text" id="harmony-color" placeholder="#F0813E" value="#F0813E" aria-label="Base color hex input">
-                <input type="color" id="harmony-color-picker" style="display: none;">
-                <div class="color-preview" id="harmony-color-preview" title="Click to pick a color"></div>
-              </div>
-              <div class="error-message" id="harmony-color-error"></div>
-            </div>
-          </div>
+                    <!-- Harmony Type Selection -->
+                    <div class="harmony-buttons">
+                        <button class="harmony-btn active" data-harmony="complementary">Complementary</button>
+                        <button class="harmony-btn" data-harmony="analogous">Analogous</button>
+                        <button class="harmony-btn" data-harmony="triadic">Triadic</button>
+                        <button class="harmony-btn" data-harmony="tetradic">Tetradic</button>
+                        <button class="harmony-btn" data-harmony="split-complementary">Split-Comp</button>
+                    </div>
 
-          <div class="controls-row">
-            <div class="input-group">
-              <label for="harmony-type">Harmony Type</label>
-              <select id="harmony-type" aria-label="Harmony type">
-                <option value="complementary">Complementary</option>
-                <option value="analogous">Analogous</option>
-                <option value="triadic">Triadic</option>
-                <option value="tetradic">Tetradic</option>
-                <option value="split-complementary">Split-Complementary</option>
-              </select>
-            </div>
+                    <!-- Harmony Display -->
+                    <div class="harmony-display">
+                        <div class="harmony-colors" id="harmonyColors">
+                            <!-- Generated harmony colors appear here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <div class="input-group button-group">
-              <button id="generate-harmony" aria-label="Generate harmony (Ctrl+Enter)">Generate</button>
-            </div>
-          </div>
+            <!-- Color Modifier Tool -->
+            <section id="color-modifier" class="tab-content">
+                <div class="tool-header">
+                    <h2>Modifier</h2>
+                    <p class="tool-blurb">Fine-tune any color. Adjust lightness, saturation, hue, and opacity with live preview and draggable sliders.</p>
+                </div>
 
-        </div>
-      </section>
+                <div class="modifier-window">
+                    <!-- Color Input -->
+                    <div class="modifier-input-section">
+                        <label>Base Color</label>
+                        <div class="color-input-wrapper">
+                            <div class="color-preview" id="modifierPreview" style="background-color: #f0813e;"></div>
+                            <input type="text" id="modifierInput" value="#f0813e" placeholder="#000000">
+                            <input type="color" id="modifierColorPicker" value="#f0813e" style="display: none;">
+                        </div>
+                    </div>
 
-      <section class="results-section" id="harmony-results">
-        <h3 id="harmony-title">Color Harmony</h3>
-        <p class="results-blurb">Your harmony palette is ready. The base color is highlighted. Click any hex code to copy it to your clipboard.</p>
-        <div id="harmony-grid"></div>
-      </section>
+                    <!-- Color Previews Side by Side -->
+                    <div class="preview-section">
+                        <div class="preview-box">
+                            <span class="preview-label">Original</span>
+                            <div class="large-color-preview" id="originalColorPreview" style="background-color: #f0813e;"></div>
+                        </div>
+                        <div class="preview-box">
+                            <span class="preview-label">Modified</span>
+                            <div class="large-color-preview" id="modifiedColorPreview" style="background-color: #f0813e;"></div>
+                        </div>
+                    </div>
 
-    </section>
+                    <!-- Sliders with Draggable Scales -->
+                    <div class="sliders-section">
+                        <!-- Lightness Slider -->
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <label>Lightness</label>
+                                <span class="slider-value" id="lightnessValue">50%</span>
+                            </div>
+                            <div class="slider-track" id="lightnessTrack">
+                                <div class="slider-indicator" id="lightnessIndicator"></div>
+                            </div>
+                        </div>
 
-  <!-- ===== COLOR MODIFIER TOOL ===== -->
-<section class="tool-section" id="modifier-tool">
+                        <!-- Saturation Slider -->
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <label>Saturation</label>
+                                <span class="slider-value" id="saturationValue">50%</span>
+                            </div>
+                            <div class="slider-track" id="saturationTrack">
+                                <div class="slider-indicator" id="saturationIndicator"></div>
+                            </div>
+                        </div>
 
-  <div class="tool-header">
-    <h2>Color Modifier</h2>
-    <p class="tool-blurb">Fine-tune a single color by adjusting its lightness, saturation, hue, and opacity. See live updates instantly.</p>
-  </div>
+                        <!-- Hue Slider -->
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <label>Hue</label>
+                                <span class="slider-value" id="hueValue">0°</span>
+                            </div>
+                            <div class="slider-track" id="hueTrack" style="background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff0080, #ff0000);">
+                                <div class="slider-indicator" id="hueIndicator"></div>
+                            </div>
+                        </div>
 
-  <section class="input-section">
-    <h3>Select Your Color</h3>
-    
-    <div class="input-grid">
-      <div class="colors-row" style="grid-template-columns: 1fr;">
-        <div class="input-group">
-          <label for="modifier-color">Base Color</label>
-          <div class="color-input">
-            <input type="text" id="modifier-color" placeholder="#F0813E" value="#F0813E" aria-label="Base color hex input">
-            <input type="color" id="modifier-color-picker" style="display: none;">
-            <div class="color-preview" id="modifier-color-preview" title="Click to pick a color"></div>
-          </div>
-          <div class="error-message" id="modifier-color-error"></div>
-        </div>
-      </div>
+                        <!-- Opacity Slider -->
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <label>Opacity</label>
+                                <span class="slider-value" id="opacityValue">100%</span>
+                            </div>
+                            <div class="slider-track" id="opacityTrack">
+                                <div class="slider-indicator" id="opacityIndicator"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Color Output -->
+                    <div class="modifier-output-section">
+                        <div class="output-row">
+                            <label>HEX</label>
+                            <div class="hex-display">
+                                <span id="modifierHex">#f0813e</span>
+                                <button class="copy-btn" id="modifierHexCopy" title="Copy to clipboard">📋</button>
+                            </div>
+                        </div>
+                        <div class="output-row">
+                            <label>RGB</label>
+                            <div class="hex-display">
+                                <span id="modifierRgb">rgb(240, 129, 62)</span>
+                                <button class="copy-btn" id="modifierRgbCopy" title="Copy to clipboard">📋</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reset Button -->
+                    <button id="resetModifierBtn" class="btn-primary" title="Reset to original color">Reset</button>
+                </div>
+            </section>
+        </main>
     </div>
-  </section>
 
-<section class="input-section">
-  <h3>Adjustments</h3>
-  
-  <div class="modifiers-grid">
-    <div class="modifier-control">
-      <label>🌞 Lightness</label>
-      <div class="control-buttons">
-        <button class="adj-btn" data-adjust="lightness" data-amount="-10" title="Darken">−</button>
-        <span class="adj-value" id="lightness-display">0</span>
-        <button class="adj-btn" data-adjust="lightness" data-amount="+10" title="Lighten">+</button>
-      </div>
-      <div class="adjustment-scale lightness-scale" id="lightness-scale">
-        <div class="scale-indicator" id="lightness-indicator"></div>
-      </div>
-      <div class="scale-labels">
-        <span>Darker</span>
-        <span>Lighter</span>
-      </div>
-    </div>
-
-    <div class="modifier-control">
-      <label>🎨 Saturation</label>
-      <div class="control-buttons">
-        <button class="adj-btn" data-adjust="saturation" data-amount="-10" title="Desaturate">−</button>
-        <span class="adj-value" id="saturation-display">0</span>
-        <button class="adj-btn" data-adjust="saturation" data-amount="+10" title="Saturate">+</button>
-      </div>
-      <div class="adjustment-scale saturation-scale" id="saturation-scale">
-        <div class="scale-indicator" id="saturation-indicator"></div>
-      </div>
-      <div class="scale-labels">
-        <span>Muted</span>
-        <span>Vivid</span>
-      </div>
-    </div>
-
-    <div class="modifier-control">
-      <label>🔄 Hue Shift</label>
-      <div class="control-buttons">
-        <button class="adj-btn" data-adjust="hue" data-amount="-15" title="Shift left">−</button>
-        <span class="adj-value" id="hue-display">0°</span>
-        <button class="adj-btn" data-adjust="hue" data-amount="+15" title="Shift right">+</button>
-      </div>
-      <div class="adjustment-scale hue-scale" id="hue-scale">
-        <div class="scale-indicator" id="hue-indicator"></div>
-      </div>
-      <div class="scale-labels">
-        <span>−180°</span>
-        <span>+180°</span>
-      </div>
-    </div>
-
-    <div class="modifier-control">
-      <label>👁️ Opacity</label>
-      <div class="control-buttons">
-        <button class="adj-btn" data-adjust="opacity" data-amount="-10" title="Less opaque">−</button>
-        <span class="adj-value" id="opacity-display">100%</span>
-        <button class="adj-btn" data-adjust="opacity" data-amount="+10" title="More opaque">+</button>
-      </div>
-      <div class="adjustment-scale opacity-scale" id="opacity-scale">
-        <div class="scale-indicator" id="opacity-indicator"></div>
-      </div>
-      <div class="scale-labels">
-        <span>Transparent</span>
-        <span>Opaque</span>
-      </div>
-    </div>
-  </div>
-
-  <button id="reset-modifier" aria-label="Reset all adjustments" style="margin-top: 20px;">Reset</button>
-</section>
-
-  <section class="input-section">
-    <h3>Preview</h3>
-    
-    <div class="modifier-comparison">
-      <div class="modifier-side">
-        <p class="side-label">Original</p>
-        <div class="modifier-swatch" id="original-swatch"></div>
-        <div class="modifier-codes" id="original-codes"></div>
-      </div>
-
-      <div class="modifier-side">
-        <p class="side-label">Modified</p>
-        <div class="modifier-swatch" id="modified-swatch"></div>
-        <div class="modifier-codes" id="modified-codes"></div>
-      </div>
-    </div>
-  </section>
-
-</section>
-
-  </main>
-
-</div>
-
-<!-- LOAD SCRIPTS IN ORDER -->
-<script src="js/main.js"></script>
-<script src="js/contrast-fix.js"></script>
-<script src="js/complement-finder.js"></script>
-<script src="js/color-modifier.js"></script>
-
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    <script src="contrast-fix.js"></script>
+    <script src="complement-finder.js"></script>
+    <script src="color-modifier.js"></script>
 </body>
 </html>
